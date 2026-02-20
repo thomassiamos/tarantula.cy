@@ -314,16 +314,18 @@
             </div>
 
             <p class="mt-2 text-sm text-white/70">
-              Check today’s opening hours below. Fast ordering via Foody.
+              Tap <span class="text-white font-semibold">Hours</span> to view today’s schedule. Fast ordering via Foody.
             </p>
 
+            <!-- ✅ Hours + Order (no repeat with Directions) -->
             <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
-              <a id="cardDirections"
-                 href="#" target="_blank" rel="noopener"
-                 class="px-4 py-3 rounded-2xl bg-tar-pink text-white font-semibold text-center hover:opacity-95">
-                Directions
+              <a href="#findus" data-open-hours
+                 class="px-4 py-3 rounded-2xl bg-white/5 border border-white/10 text-white font-semibold text-center hover:bg-white/8">
+                Hours
               </a>
-              <a href="#order" class="px-4 py-3 rounded-2xl bg-tar-foody text-white font-semibold text-center hover:opacity-95">
+
+              <a href="https://www.foody.com.cy/delivery/leykosia/tarantula-2000702653" target="_blank" rel="noopener"
+                 class="px-4 py-3 rounded-2xl bg-tar-foody text-white font-semibold text-center hover:opacity-95">
                 Order
               </a>
             </div>
@@ -337,7 +339,7 @@
       <div class="flex items-end justify-between gap-4" data-reveal>
         <div>
           <h2 class="font-display text-3xl md:text-4xl tracking-wide">BEST SELLERS</h2>
-          <p class="text-white/65 mt-2">Fan favorites — no overthinking.</p>
+          <p class="text-white/65 mt-2">Fan favorites, no overthinking.</p>
         </div>
       </div>
 
@@ -387,7 +389,7 @@
     <section id="order" class="mx-auto max-w-6xl px-4 pb-14">
       <div class="rounded-[2.25rem] bg-white/5 border border-white/10 p-7 md:p-10 shadow-glow" data-reveal>
         <h2 class="font-display text-3xl md:text-4xl tracking-wide">ORDER ONLINE</h2>
-        <p class="mt-2 text-white/70 max-w-2xl">Tarantula right at your doorstep</p>
+        <p class="mt-2 text-white/70 max-w-2xl">Tarantula right at your doorstep.</p>
 
         <div class="mt-6 grid sm:grid-cols-2 gap-3">
           <a href="https://www.foody.com.cy/delivery/leykosia/tarantula-2000702653" target="_blank" rel="noopener"
@@ -409,7 +411,7 @@
     <section id="gallery" class="mx-auto max-w-6xl px-4 pb-14">
       <div data-reveal>
         <h2 class="font-display text-3xl md:text-4xl tracking-wide">GALLERY</h2>
-        <p class="mt-2 text-white/65">Dont blame us if they make you hungry</p>
+        <p class="mt-2 text-white/65">Dont blame us if they make you hungry.</p>
       </div>
 
       <div class="mt-7 grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -468,7 +470,8 @@
               </div>
 
               <div class="flex-1">
-                <details class="rounded-2xl bg-white/5 border border-white/10 px-4 py-3">
+                <!-- ✅ ID so we can auto-open it from the evergreen card -->
+                <details id="hoursDetails" class="rounded-2xl bg-white/5 border border-white/10 px-4 py-3">
                   <summary class="flex items-center justify-between cursor-pointer select-none">
                     <div>
                       <div class="font-semibold">Hours</div>
@@ -529,8 +532,7 @@
           </div>
         </div>
 
-        <!-- ✅ MAP FIX: use maps.google.com output=embed (more reliable on mobile)
-             + make it non-interactive + clickable overlay to open MAPS_URL -->
+        <!-- ✅ MAP FIX: more reliable embed + non-interactive + clickable overlay -->
         <div class="rounded-[2.25rem] overflow-hidden bg-white/5 border border-white/10 shadow-glow relative" data-reveal>
           <iframe
             title="Map preview"
@@ -649,7 +651,7 @@
   <script>
     // Apply the short Maps app link everywhere (buttons + overlay)
     const mapAnchors = [
-      "navDirections", "drawerDirections", "heroDirections", "cardDirections",
+      "navDirections", "drawerDirections", "heroDirections",
       "orderDirections", "mapsBtn", "footerDirections", "mapOverlay"
     ];
     mapAnchors.forEach(id => {
@@ -714,6 +716,20 @@
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
 
+    // Evergreen card -> Hours: scroll + auto-open hours details
+    document.querySelectorAll("[data-open-hours]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        setTimeout(() => {
+          const d = document.getElementById("hoursDetails");
+          if (!d) return;
+          d.open = true;
+          const summary = d.querySelector("summary");
+          summary?.focus({ preventScroll: true });
+          d.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 120);
+      });
+    });
+
     // -------------------------
     // Gallery Lightbox: next/prev + swipe
     // -------------------------
@@ -752,7 +768,6 @@
 
     const closeLightbox = () => {
       lbShell.classList.remove("show");
-      // allow animation to finish
       setTimeout(() => {
         lb.classList.add("hidden");
         lb.classList.remove("flex");
@@ -770,12 +785,10 @@
     btnNext.addEventListener("click", (e) => { e.stopPropagation(); next(); });
     closeLb.addEventListener("click", closeLightbox);
 
-    // click outside image closes
     lb.addEventListener("click", (e) => {
       if (e.target === lb) closeLightbox();
     });
 
-    // Keyboard: ESC + arrows
     window.addEventListener("keydown", (e) => {
       if (lb.classList.contains("hidden")) return;
       if (e.key === "Escape") closeLightbox();
@@ -804,7 +817,6 @@
       const dx = t.clientX - startX;
       const dy = t.clientY - startY;
 
-      // Only horizontal swipe (avoid vertical scroll gestures)
       if (Math.abs(dx) < 50) return;
       if (Math.abs(dx) < Math.abs(dy) * 1.2) return;
 
@@ -812,9 +824,8 @@
       else next();
     };
 
-    // Attach swipe handlers to the image area (feels natural)
     lbImg.addEventListener("touchstart", onTouchStart, { passive: true });
     lbImg.addEventListener("touchend", onTouchEnd, { passive: true });
   </script>
 </body>
-</html>
+</html> 
