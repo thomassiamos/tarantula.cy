@@ -38,7 +38,7 @@
   <meta name="twitter:description" content="Order delivery on Foody or visit for takeaway. Hours, location, gallery & contact." />
   <meta name="twitter:image" content="https://tarantula.cy/img/hero.jpg" />
 
-  <!-- ✅ Use the short Maps app link for all buttons + map click -->
+  <!-- ✅ Short Maps app link for all Directions -->
   <script>
     const MAPS_URL = "https://maps.app.goo.gl/v5nnB7ASjNBAjwYDA";
   </script>
@@ -117,6 +117,7 @@
       html { scroll-behavior: auto; }
       [data-reveal]{ transition:none !important; transform:none !important; opacity:1 !important; }
       .transition-motion{ transition:none !important; }
+      .lb-anim{ transition:none !important; transform:none !important; opacity:1 !important; }
     }
 
     /* Burger animation */
@@ -180,6 +181,17 @@
       outline-offset: 3px;
       border-radius: 14px;
     }
+
+    /* Lightbox animation */
+    .lb-anim{
+      opacity: 0;
+      transform: translateY(10px) scale(.985);
+      transition: opacity 180ms ease, transform 220ms ease;
+    }
+    .lb-anim.show{
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
   </style>
 </head>
 
@@ -190,6 +202,8 @@
     <symbol id="i-clock" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20Zm1-10.6V6h-2v6l4.8 2.9 1-1.7-3.8-2.2Z"/></symbol>
     <symbol id="i-ig" viewBox="0 0 24 24"><path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3Zm-5 4.5A5.5 5.5 0 1 1 6.5 14 5.5 5.5 0 0 1 12 8.5Zm0 2A3.5 3.5 0 1 0 15.5 14 3.5 3.5 0 0 0 12 10.5ZM18 6.8a1.2 1.2 0 1 1-1.2 1.2A1.2 1.2 0 0 1 18 6.8Z"/></symbol>
     <symbol id="i-chevron" viewBox="0 0 24 24"><path fill="currentColor" d="M7.4 9.4 12 14l4.6-4.6 1.4 1.4-6 6-6-6 1.4-1.4Z"/></symbol>
+    <symbol id="i-arrow-l" viewBox="0 0 24 24"><path fill="currentColor" d="M14.5 5 8 12l6.5 7 1.5-1.4L10.9 12 16 6.4 14.5 5Z"/></symbol>
+    <symbol id="i-arrow-r" viewBox="0 0 24 24"><path fill="currentColor" d="M9.5 19 16 12 9.5 5 8 6.4l5.1 5.6L8 17.6 9.5 19Z"/></symbol>
   </svg>
 
   <!-- Overlay for mobile menu -->
@@ -395,26 +409,37 @@
     <section id="gallery" class="mx-auto max-w-6xl px-4 pb-14">
       <div data-reveal>
         <h2 class="font-display text-3xl md:text-4xl tracking-wide">GALLERY</h2>
-        <p class="mt-2 text-white/65">Drop your best shots here (lightbox included).</p>
+        <p class="mt-2 text-white/65">Tap a photo (swipe + next/prev in lightbox).</p>
       </div>
 
       <div class="mt-7 grid grid-cols-2 md:grid-cols-3 gap-3">
-        <button class="gallery-item rounded-2xl overflow-hidden bg-white/5 border border-white/10" data-full="img/image3.jpg" data-reveal aria-label="Open gallery image 1">
+        <button class="gallery-item rounded-2xl overflow-hidden bg-white/5 border border-white/10"
+                data-full="img/image3.jpg" data-reveal aria-label="Open gallery image 1">
           <img src="img/image3.jpg" alt="Tarantula food photo 1" class="w-full h-full object-cover aspect-square" loading="lazy" decoding="async">
         </button>
-        <button class="gallery-item rounded-2xl overflow-hidden bg-white/5 border border-white/10" data-full="img/signature.jpg" data-reveal aria-label="Open gallery image 2">
+
+        <button class="gallery-item rounded-2xl overflow-hidden bg-white/5 border border-white/10"
+                data-full="img/signature.jpg" data-reveal aria-label="Open gallery image 2">
           <img src="img/signature.jpg" alt="Tarantula signature burger photo" class="w-full h-full object-cover aspect-square" loading="lazy" decoding="async">
         </button>
-        <button class="gallery-item rounded-2xl overflow-hidden bg-white/5 border border-white/10" data-full="img/tenders.jpg" data-reveal aria-label="Open gallery image 3">
+
+        <button class="gallery-item rounded-2xl overflow-hidden bg-white/5 border border-white/10"
+                data-full="img/tenders.jpg" data-reveal aria-label="Open gallery image 3">
           <img src="img/tenders.jpg" alt="Tarantula tenders photo" class="w-full h-full object-cover aspect-square" loading="lazy" decoding="async">
         </button>
-        <button class="gallery-item rounded-2xl overflow-hidden bg-white/5 border border-white/10" data-full="img/loadedfries.jpg" data-reveal aria-label="Open gallery image 4">
+
+        <button class="gallery-item rounded-2xl overflow-hidden bg-white/5 border border-white/10"
+                data-full="img/loadedfries.jpg" data-reveal aria-label="Open gallery image 4">
           <img src="img/loadedfries.jpg" alt="Tarantula loaded fries photo" class="w-full h-full object-cover aspect-square" loading="lazy" decoding="async">
         </button>
-        <button class="gallery-item rounded-2xl overflow-hidden bg-white/5 border border-white/10" data-full="img/image3.jpg" data-reveal aria-label="Open gallery image 5">
+
+        <button class="gallery-item rounded-2xl overflow-hidden bg-white/5 border border-white/10"
+                data-full="img/dip.jpg" data-reveal aria-label="Open gallery image 5">
           <img src="img/dip.jpg" alt="Tarantula dip photo" class="w-full h-full object-cover aspect-square" loading="lazy" decoding="async">
         </button>
-        <button class="gallery-item rounded-2xl overflow-hidden bg-white/5 border border-white/10" data-full="img/image3.jpg" data-reveal aria-label="Open gallery image 6">
+
+        <button class="gallery-item rounded-2xl overflow-hidden bg-white/5 border border-white/10"
+                data-full="img/image5.png" data-reveal aria-label="Open gallery image 6">
           <img src="img/image5.png" alt="Tarantula food photo 2" class="w-full h-full object-cover aspect-square" loading="lazy" decoding="async">
         </button>
       </div>
@@ -504,25 +529,24 @@
           </div>
         </div>
 
-        <!-- ✅ Map preview + click overlay that opens MAPS_URL -->
+        <!-- ✅ MAP FIX: use maps.google.com output=embed (more reliable on mobile)
+             + make it non-interactive + clickable overlay to open MAPS_URL -->
         <div class="rounded-[2.25rem] overflow-hidden bg-white/5 border border-white/10 shadow-glow relative" data-reveal>
           <iframe
             title="Map preview"
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
-            class="w-full h-[360px] md:h-[420px]"
-            src="https://www.google.com/maps?output=embed&q=TARANTULA+Fried+Chicken">
+            class="w-full h-[360px] md:h-[420px] pointer-events-none"
+            src="https://maps.google.com/maps?q=TARANTULA%20Fried%20Chicken%20Nicosia&t=&z=16&ie=UTF8&iwloc=&output=embed">
           </iframe>
 
-          <!-- Transparent overlay link (best UX: tap map => open Maps app link) -->
+          <!-- Overlay link (tap opens your short link) -->
           <a id="mapOverlay"
              href="#"
              target="_blank" rel="noopener"
              class="absolute inset-0"
-             aria-label="Open TARANTULA location in Google Maps">
-          </a>
+             aria-label="Open TARANTULA location in Google Maps"></a>
 
-          <!-- Small label (optional, feels premium) -->
           <div class="absolute left-3 bottom-3 pointer-events-none">
             <div class="px-3 py-2 rounded-2xl bg-black/55 border border-white/10 text-xs text-white/85 backdrop-blur">
               Tap map to open directions
@@ -588,13 +612,37 @@
     </div>
   </div>
 
-  <!-- Lightbox -->
-  <div id="lightbox" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/80 p-4" aria-hidden="true">
-    <div class="relative max-w-3xl w-full">
-      <button id="closeLb" class="absolute -top-12 right-0 px-4 py-2 rounded-xl bg-white/10 border border-white/15 text-white">
-        Close ✕
-      </button>
-      <img id="lbImg" src="" alt="Preview" class="w-full rounded-3xl border border-white/10 shadow-glow" />
+  <!-- Lightbox (with prev/next + swipe) -->
+  <div id="lightbox" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/85 p-4" aria-hidden="true">
+    <div class="relative max-w-4xl w-full lb-anim" id="lbShell">
+      <!-- Top bar -->
+      <div class="flex items-center justify-between mb-3">
+        <div class="text-xs text-white/70">
+          <span id="lbCount">1 / 1</span>
+          <span class="ml-2 text-white/40">• swipe or use arrows</span>
+        </div>
+        <button id="closeLb" class="px-4 py-2 rounded-xl bg-white/10 border border-white/15 text-white">
+          Close ✕
+        </button>
+      </div>
+
+      <!-- Image area -->
+      <div class="relative">
+        <img id="lbImg" src="" alt="Preview" class="w-full rounded-3xl border border-white/10 shadow-glow select-none" draggable="false" />
+
+        <!-- Prev/Next -->
+        <button id="lbPrev"
+                class="absolute left-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-2xl bg-white/10 border border-white/15 grid place-items-center hover:bg-white/15"
+                aria-label="Previous photo">
+          <svg class="w-6 h-6"><use href="#i-arrow-l"/></svg>
+        </button>
+
+        <button id="lbNext"
+                class="absolute right-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-2xl bg-white/10 border border-white/15 grid place-items-center hover:bg-white/15"
+                aria-label="Next photo">
+          <svg class="w-6 h-6"><use href="#i-arrow-r"/></svg>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -655,30 +703,6 @@
     }, { threshold: 0.12 });
     revealEls.forEach(el => io.observe(el));
 
-    // Lightbox
-    const lb = document.getElementById("lightbox");
-    const lbImg = document.getElementById("lbImg");
-    const closeLb = document.getElementById("closeLb");
-
-    document.querySelectorAll(".gallery-item").forEach(btn => {
-      btn.addEventListener("click", () => {
-        lbImg.src = btn.getAttribute("data-full");
-        lb.classList.remove("hidden");
-        lb.classList.add("flex");
-        lb.setAttribute("aria-hidden", "false");
-      });
-    });
-
-    const closeLightbox = () => {
-      lb.classList.add("hidden");
-      lb.classList.remove("flex");
-      lb.setAttribute("aria-hidden", "true");
-      lbImg.src = "";
-    };
-    closeLb.addEventListener("click", closeLightbox);
-    lb.addEventListener("click", (e) => { if (e.target === lb) closeLightbox(); });
-    window.addEventListener("keydown", (e) => { if (e.key === "Escape") closeLightbox(); });
-
     // Sticky Foody Bar
     const stickyBar = document.getElementById("stickyBar");
     const showStickyAfter = 520;
@@ -689,6 +713,108 @@
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
+
+    // -------------------------
+    // Gallery Lightbox: next/prev + swipe
+    // -------------------------
+    const lb = document.getElementById("lightbox");
+    const lbShell = document.getElementById("lbShell");
+    const lbImg = document.getElementById("lbImg");
+    const lbCount = document.getElementById("lbCount");
+    const closeLb = document.getElementById("closeLb");
+    const btnPrev = document.getElementById("lbPrev");
+    const btnNext = document.getElementById("lbNext");
+
+    const items = Array.from(document.querySelectorAll(".gallery-item"));
+    const sources = items.map(btn => btn.getAttribute("data-full"));
+
+    let idx = 0;
+
+    const setCount = () => {
+      lbCount.textContent = `${idx + 1} / ${sources.length}`;
+    };
+
+    const showAt = (i) => {
+      if (!sources.length) return;
+      idx = (i + sources.length) % sources.length;
+      lbImg.src = sources[idx];
+      setCount();
+    };
+
+    const openLightbox = (i) => {
+      showAt(i);
+      lb.classList.remove("hidden");
+      lb.classList.add("flex");
+      lb.setAttribute("aria-hidden", "false");
+      requestAnimationFrame(() => lbShell.classList.add("show"));
+      document.body.style.overflow = "hidden";
+    };
+
+    const closeLightbox = () => {
+      lbShell.classList.remove("show");
+      // allow animation to finish
+      setTimeout(() => {
+        lb.classList.add("hidden");
+        lb.classList.remove("flex");
+        lb.setAttribute("aria-hidden", "true");
+        lbImg.src = "";
+        document.body.style.overflow = "";
+      }, 140);
+    };
+
+    const prev = () => showAt(idx - 1);
+    const next = () => showAt(idx + 1);
+
+    items.forEach((btn, i) => btn.addEventListener("click", () => openLightbox(i)));
+    btnPrev.addEventListener("click", (e) => { e.stopPropagation(); prev(); });
+    btnNext.addEventListener("click", (e) => { e.stopPropagation(); next(); });
+    closeLb.addEventListener("click", closeLightbox);
+
+    // click outside image closes
+    lb.addEventListener("click", (e) => {
+      if (e.target === lb) closeLightbox();
+    });
+
+    // Keyboard: ESC + arrows
+    window.addEventListener("keydown", (e) => {
+      if (lb.classList.contains("hidden")) return;
+      if (e.key === "Escape") closeLightbox();
+      if (e.key === "ArrowLeft") prev();
+      if (e.key === "ArrowRight") next();
+    });
+
+    // Swipe (mobile)
+    let startX = 0;
+    let startY = 0;
+    let swiping = false;
+
+    const onTouchStart = (e) => {
+      if (lb.classList.contains("hidden")) return;
+      const t = e.touches[0];
+      startX = t.clientX;
+      startY = t.clientY;
+      swiping = true;
+    };
+
+    const onTouchEnd = (e) => {
+      if (!swiping) return;
+      swiping = false;
+
+      const t = e.changedTouches[0];
+      const dx = t.clientX - startX;
+      const dy = t.clientY - startY;
+
+      // Only horizontal swipe (avoid vertical scroll gestures)
+      if (Math.abs(dx) < 50) return;
+      if (Math.abs(dx) < Math.abs(dy) * 1.2) return;
+
+      if (dx > 0) prev();
+      else next();
+    };
+
+    // Attach swipe handlers to the image area (feels natural)
+    lbImg.addEventListener("touchstart", onTouchStart, { passive: true });
+    lbImg.addEventListener("touchend", onTouchEnd, { passive: true });
   </script>
 </body>
 </html>
